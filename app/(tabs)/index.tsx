@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   cardImage: {
-    width: 200,
     height: 200,
   },
   gradient: {
