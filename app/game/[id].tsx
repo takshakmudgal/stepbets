@@ -1,4 +1,3 @@
-// app/game/[id].tsx
 import React, { useLayoutEffect, useState, useEffect, useRef } from "react";
 import { View, StyleSheet, ScrollView, Alert, Platform } from "react-native";
 import {
@@ -126,7 +125,7 @@ export default function GameDetailScreen() {
         </Card>
         {isJoined && game.category === "fitness" && game.unit === "steps" && (
           <View style={styles.progressContainer}>
-            <Text>Movement Count: {movementCount}</Text>
+            <Text>Steps Count: {movementCount}</Text>
             <ProgressBar progress={progress} style={styles.progressBar} />
             <Text>Progress: {Math.round(progress * 100)}%</Text>
             <Text>Accelerometer: (in gs where 1g = 9.81 m/s^2)</Text>

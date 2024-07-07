@@ -9,14 +9,14 @@ interface GameStore extends GameState {
 const mockGames: WageringGame[] = [
   {
     id: "1",
-    title: "10K Steps Challenge",
-    shortDescription: "Walk 10,000 steps daily for a week!",
+    title: "500 Steps Challenge",
+    shortDescription: "Walk 500 steps daily for a week!",
     fullDescription:
       "Challenge yourself to walk 10,000 steps every day for a full week. Track your progress using your smartphone or fitness tracker. The person with the highest total steps at the end of the week wins the grand prize!",
     imageUrl:
       "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     category: "fitness",
-    goal: 70000,
+    goal: 3500,
     unit: "steps",
     duration: 7,
     entryFee: 5,
