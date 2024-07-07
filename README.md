@@ -1,3 +1,8 @@
+# StepBets
+A pedometer based wagering application prototype, for the CatOff Assignment. This application was built with nicely written React Native Expo Code, with secure typechecking and code convention. 
+This application features a Game Card Menu with multiple games/challenges which when clicked lead the description and a dashboard for the games progress stats.
+The sports related challenges will calculate live stats based on the pedometer's fetched data, and will update in real time.
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
