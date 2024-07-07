@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   TouchableWithoutFeedback,
@@ -16,7 +16,7 @@ import {
   IconButton,
 } from "react-native-paper";
 import { useRouter, Link } from "expo-router";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
 import useAuthStore from "@/store/auth/authStore";
 import {
@@ -25,7 +25,7 @@ import {
 } from "@/utils/validation";
 import { FirebaseError } from "firebase/app";
 
-export default function AuthScreen() {
+export default function LoginScreen() {
   const {
     email,
     password,
@@ -45,10 +45,10 @@ export default function AuthScreen() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [registrationError, setRegistrationError] = useState("");
+  const [loginError, setLoginError] = useState("");
 
-  const emailInputRef = React.useRef<RNTextInput>(null);
-  const passwordInputRef = React.useRef<RNTextInput>(null);
+  const emailInputRef = useRef<RNTextInput>(null);
+  const passwordInputRef = useRef<RNTextInput>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -103,18 +103,18 @@ export default function AuthScreen() {
     passwordInputRef.current?.blur();
   };
 
-  const handleSignUp = async () => {
+  const handleLogin = async () => {
     if (isValidEmail && isValidPassword) {
       setIsLoading(true);
-      setRegistrationError("");
+      setLoginError("");
       try {
-        await createUserWithEmailAndPassword(auth, email, password);
+        await signInWithEmailAndPassword(auth, email, password);
       } catch (error) {
-        console.error("Error signing up:", error);
-        if ((error as FirebaseError).code === "auth/email-already-in-use") {
-          setRegistrationError("User with this email already exists.");
+        console.error("Error logging in:", error);
+        if ((error as FirebaseError).code === "auth/invalid-credential") {
+          setLoginError("Wrong password or user does not exist.");
         } else {
-          setRegistrationError("An error occurred during registration.");
+          setLoginError("An error occurred during LogIn.");
         }
         setIsLoading(false);
       }
@@ -137,7 +137,7 @@ export default function AuthScreen() {
           <Title style={styles.title}>stepbets</Title>
         </View>
         <View style={styles.content}>
-          <Text variant="displaySmall">Registration</Text>
+          <Text variant="displaySmall">Login</Text>
           <TextInput
             ref={emailInputRef as any}
             mode="outlined"
@@ -180,23 +180,23 @@ export default function AuthScreen() {
           {passwordWarning !== "" && (
             <Text style={styles.errorText}>{passwordWarning}</Text>
           )}
-          {registrationError !== "" && (
-            <Text style={styles.errorText}>{registrationError}</Text>
+          {loginError !== "" && (
+            <Text style={styles.errorText}>{loginError}</Text>
           )}
           {isLoading ? (
             <ActivityIndicator size="large" color="blue" />
           ) : (
             <Button
               mode="contained"
-              onPress={handleSignUp}
+              onPress={handleLogin}
               disabled={!isValidEmail || !isValidPassword}
-              style={styles.signUpButton}
+              style={styles.loginButton}
             >
-              Sign Up
+              Login
             </Button>
           )}
-          <Link href="/login" style={styles.loginStyles}>
-            Already a member? Log In
+          <Link href="/" style={styles.registerStyles}>
+            Not a member? Sign Up
           </Link>
         </View>
       </View>
@@ -205,7 +205,7 @@ export default function AuthScreen() {
 }
 
 const styles = StyleSheet.create({
-  loginStyles: {
+  registerStyles: {
     textDecorationLine: "underline",
     color: "tomato",
   },
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     width: "100%",
     textAlign: "center",
   },
-  signUpButton: {
+  loginButton: {
     borderRadius: 4,
     marginTop: 20,
     width: "90%",

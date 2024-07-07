@@ -1,12 +1,18 @@
 import { Tabs } from "expo-router";
 import React from "react";
-
+import { useNavigation } from "expo-router";
+import { useLayoutEffect } from "react";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({ headerShown: false });
+  }, [navigation]);
 
   return (
     <Tabs
@@ -28,24 +34,24 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="settings"
-        options={{
-          title: "Settings",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "settings" : "settings-outline"}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="explore"
         options={{
           title: "Explore",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "code-slash" : "code-slash-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "Settings",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "settings" : "settings-outline"}
               color={color}
             />
           ),
